@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStudio - ServiceNow & Frontend Development</title>
+    <meta name="description" content="Professional ServiceNow and Frontend Development services. Expert in Service Portal, Employee Center, and custom applications.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS Variables and Styles -->
+    <style>
+        :root {
+            --primary-bg: #0F172A;
+            --secondary: #3B82F6;
+            --accent: #06B6D4;
+            --text-primary: #F0FDFA;
+            --text-secondary: #94A3B8;
+            --card-bg: #1E293B;
+        }
+
+        /* Subtle Sparkle Background Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.04) 1px, transparent 1px),
+                radial-gradient(circle at 40% 70%, rgba(6, 182, 212, 0.02) 1px, transparent 1px),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 10% 90%, rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 70% 50%, rgba(59, 130, 246, 0.02) 1px, transparent 1px),
+                linear-gradient(-45deg, transparent 45%, rgba(6, 182, 212, 0.01) 49%, rgba(59, 130, 246, 0.015) 50%, rgba(6, 182, 212, 0.01) 51%, transparent 55%);
+            background-size: 300px 300px, 250px 250px, 400px 400px, 350px 350px, 280px 280px, 320px 320px, 600% 600%;
+            animation: subtleShimmer 20s ease-in-out infinite;
+            z-index: -1;
+            opacity: 0.8;
+        }
+
+        @keyframes subtleShimmer {
+            0%, 100% {
+                background-position: 0% 0%, 100% 100%, 50% 50%, 0% 100%, 100% 0%, 25% 75%, 0% 0%;
+            }
+            25% {
+                background-position: 50% 25%, 75% 50%, 75% 25%, 25% 75%, 75% 25%, 50% 50%, 100% 100%;
+            }
+            50% {
+                background-position: 100% 50%, 50% 0%, 100% 75%, 50% 50%, 50% 50%, 75% 25%, 200% 200%;
+            }
+            75% {
+                background-position: 75% 75%, 25% 75%, 25% 100%, 75% 25%, 25% 75%, 100% 100%, 300% 300%;
+            }
+        }
+
+        /* Gradient Text Effect */
+        .gradient-text {
+            background: linear-gradient(45deg, #3B82F6, #06B6D4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: textShimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes textShimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Glass Morphism */
+        .glass {
+            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        /* Floating Animation */
+        .float {
+            animation: float 6s ease-in-out infinite alternate;
+        }
+
+        .float-delayed {
+            animation: float 6s ease-in-out infinite alternate;
+            animation-delay: 2s;
+        }
+
+        .rotate-slow {
+            animation: rotateSlow 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(-20px) translateX(0px);
+            }
+            100% {
+                transform: translateY(20px) translateX(10px);
+            }
+        }
+
+        @keyframes rotateSlow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Scroll Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in-up.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .fade-in.animated {
+            opacity: 1;
+        }
+
+        /* Stagger Animation */
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+
+        /* Header Shrink */
+        .header-shrink {
+            height: 60px;
+        }
+
+        /* Parallax */
+        .parallax {
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Card Hover Effects */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: scale(1.05) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Form Input Animation */
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 1rem 0 0.5rem 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #64748B;
+            color: #F0FDFA;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-bottom-color: #06B6D4;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 1rem;
+            left: 0;
+            color: #94A3B8;
+            font-size: 1rem;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label,
+        .input-group textarea:focus + label,
+        .input-group textarea:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            font-size: 0.875rem;
+            color: #06B6D4;
+        }
+
+        /* Mobile Menu Animation */
+        .hamburger {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            transition: all 0.25s;
+            position: relative;
+        }
+
+        .hamburger-top,
+        .hamburger-middle,
+        .hamburger-bottom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 2px;
+            background: #F0FDFA;
+            transform: rotate(0);
+            transition: all 0.5s;
+        }
+
+        .hamburger-middle {
+            transform: translateY(7px);
+        }
+
+        .hamburger-bottom {
+            transform: translateY(14px);
+        }
+
+        .open .hamburger-top {
+            transform: rotate(45deg) translateY(6px) translateX(6px);
+        }
+
+        .open .hamburger-middle {
+            display: none;
+        }
+
+        .open .hamburger-bottom {
+            transform: rotate(-45deg) translateY(6px) translateX(-6px);
+        }
+
+        /* Particle Dots */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #06B6D4;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: sparkle 4s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.5);
+            }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        /* Portfolio Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Performance Optimizations */
+        .gpu-accelerated {
+            transform: translate3d(0, 0, 0);
+            will-change: transform;
+        }
+
+        /* Accessibility - Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Skip to main content */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #06B6D4;
+            color: #0F172A;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            space-y: 1rem;
+            min-height: 400px;
+            max-height: 450px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(6, 182, 212, 0.5);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: rgba(6, 182, 212, 0.7);
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 1rem;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #3B82F6, #06B6D4);
+            color: white;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .message.bot .message-content {
+            background: rgba(51, 65, 85, 0.8);
+            color: #F0FDFA;
+            border-bottom-left-radius: 0.25rem;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin: 0 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #06B6D4, #3B82F6);
+            color: white;
+            order: 2;
+        }
+
+        .message.bot .message-avatar {
+            background: rgba(6, 182, 212, 0.2);
+            color: #06B6D4;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .chat-input-container {
+            padding: 1rem;
+            border-top: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(51, 65, 85, 0.5);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 1rem;
+            color: #F0FDFA;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #06B6D4;
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        }
+
+        .chat-input::placeholder {
+            color: #94A3B8;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 1rem;
+            border-bottom-left-radius: 0.25rem;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            max-width: 80px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #06B6D4;
+            border-radius: 50%;
+            animation: typingBounce 1.4s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .quick-action-btn {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #06B6D4;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(6, 182, 212, 0.2);
+            border-color: #06B6D4;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-cyan-50 font-sans antialiased overflow-x-hidden">
+    <!-- Skip to main content -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 glass transition-all duration-300 h-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+            <div class="flex items-center justify-between h-full">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-2xl font-bold gradient-text">DevStudio</a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="#about" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300">About</a></li>
+                        <li><a href="#services" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300">Services</a></li>
+                        <li><a href="#portfolio" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300">Portfolio</a></li>
+                        <li><a href="#contact" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="hamburger" aria-label="Toggle mobile menu">
+                        <div class="hamburger-top"></div>
+                        <div class="hamburger-middle"></div>
+                        <div class="hamburger-bottom"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav id="mobile-menu" class="md:hidden hidden glass border-t border-blue-500/20">
+            <ul class="px-4 py-4 space-y-4">
+                <li><a href="#about" class="block text-slate-400 hover:text-cyan-400 transition-colors duration-300">About</a></li>
+                <li><a href="#services" class="block text-slate-400 hover:text-cyan-400 transition-colors duration-300">Services</a></li>
+                <li><a href="#portfolio" class="block text-slate-400 hover:text-cyan-400 transition-colors duration-300">Portfolio</a></li>
+                <li><a href="#contact" class="block text-slate-400 hover:text-cyan-400 transition-colors duration-300">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <!-- Hero Section -->
+        <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+            <!-- Floating Geometric Shapes -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="absolute top-1/4 left-1/4 w-20 h-20 bg-blue-500/10 rounded-full float gpu-accelerated"></div>
+                <div class="absolute top-3/4 right-1/4 w-16 h-16 bg-cyan-500/10 rotate-45 float-delayed gpu-accelerated"></div>
+                <div class="absolute top-1/2 left-3/4 w-12 h-12 bg-blue-400/10 rounded-full rotate-slow gpu-accelerated"></div>
+                <div class="absolute bottom-1/4 left-1/2 w-24 h-24 bg-cyan-400/10 rotate-45 float gpu-accelerated"></div>
+            </div>
+
+            <!-- Particle Dots -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div class="particle" style="top: 20%; left: 10%;"></div>
+                <div class="particle" style="top: 60%; left: 20%; animation-delay: 1s;"></div>
+                <div class="particle" style="top: 30%; right: 15%; animation-delay: 2s;"></div>
+                <div class="particle" style="top: 80%; right: 30%; animation-delay: 0.5s;"></div>
+                <div class="particle" style="top: 10%; right: 40%; animation-delay: 1.5s;"></div>
+                <div class="particle" style="top: 70%; left: 60%; animation-delay: 2.5s;"></div>
+            </div>
+
+            <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 fade-in" data-animate>
+                    <span class="gradient-text">Innovative</span><br>
+                    <span class="text-cyan-50">Development Solutions</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-slate-400 mb-12 fade-in-up stagger-1" data-animate>
+                    ServiceNow Developer | Frontend Specialist
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#portfolio" class="inline-block bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25 fade-in-up stagger-2" data-animate>
+                        View My Work
+                    </a>
+                    <a href="#contact" class="inline-block bg-transparent border-2 border-cyan-500 text-cyan-400 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-cyan-500 hover:text-slate-900 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25 fade-in-up stagger-3" data-animate>
+                        Schedule a Meeting
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-slate-400">
+                <div class="scroll-indicator flex flex-col items-center">
+                    <span class="text-sm mb-2">Scroll Down</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 lg:py-32 min-h-screen flex items-center">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                    <!-- Image -->
+                    <div class="relative order-2 lg:order-1 fade-in-up" data-animate>
+                        <div class="relative w-80 h-80 mx-auto">
+                            <div class="parallax absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 blur-xl"></div>
+                            <div class="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30">
+                                <img src="headshot.jpg" alt="Professional headshot" class="w-full h-full object-cover" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="order-1 lg:order-2 fade-in-up" data-animate>
+                        <h2 class="text-4xl lg:text-5xl font-bold mb-8 text-cyan-50">
+                            About <span class="gradient-text">Me</span>
+                        </h2>
+                        <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mb-8"></div>
+                        
+                        <p class="text-lg text-slate-400 mb-8 leading-relaxed">
+                            With deep experience delivering enterprise ServiceNow transformations for Fortune 100 organizations, I bring a rare blend of UX leadership and practical delivery. I streamline complexity, accelerate outcomes, and build experiences employees actually adopt. Big-firm skillset, zero big-firm waste — just solutions that move the business forward.
+                        </p>
+
+                        <!-- Tech Stack -->
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-semibold text-cyan-50 mb-4">Tech Stack</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="badge bg-slate-800/50 text-cyan-400 border border-cyan-500/30 px-4 py-2 rounded-full text-sm font-medium fade-in stagger-1" data-animate>ServiceNow</span>
+                                <span class="badge bg-slate-800/50 text-cyan-400 border border-cyan-500/30 px-4 py-2 rounded-full text-sm font-medium fade-in stagger-2" data-animate>JavaScript</span>
+                                <span class="badge bg-slate-800/50 text-cyan-400 border border-cyan-500/30 px-4 py-2 rounded-full text-sm font-medium fade-in stagger-3" data-animate>React</span>
+                                <span class="badge bg-slate-800/50 text-cyan-400 border border-cyan-500/30 px-4 py-2 rounded-full text-sm font-medium fade-in stagger-4" data-animate>CSS/Tailwind</span>
+                                <span class="badge bg-slate-800/50 text-cyan-400 border border-cyan-500/30 px-4 py-2 rounded-full text-sm font-medium fade-in stagger-1" data-animate>Node.js</span>
+                                <span class="badge bg-slate-800/50 text-cyan-400 border border-cyan-500/30 px-4 py-2 rounded-full text-sm font-medium fade-in stagger-2" data-animate>REST APIs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 lg:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in-up" data-animate>
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-4 text-cyan-50">
+                        <span class="gradient-text">Services</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-6"></div>
+                    <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+                        Comprehensive ServiceNow and frontend development solutions
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Service 1 -->
+                    <div class="service-card card-hover bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-8 fade-in-up stagger-1" data-animate>
+                        <div class="text-4xl mb-6 text-cyan-400">🚀</div>
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-50">Service Portal Development</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            Create stunning, responsive Service Portals that enhance user experience and streamline business processes with modern design principles.
+                        </p>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="service-card card-hover bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-8 fade-in-up stagger-2" data-animate>
+                        <div class="text-4xl mb-6 text-cyan-400">👥</div>
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-50">Employee Center Solutions</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            Build intuitive Employee Centers that empower users with self-service capabilities and seamless access to enterprise resources.
+                        </p>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="service-card card-hover bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-8 fade-in-up stagger-3" data-animate>
+                        <div class="text-4xl mb-6 text-cyan-400">⚙️</div>
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-50">Custom Application Development</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            Develop tailored ServiceNow applications that align with your unique business requirements and drive operational efficiency.
+                        </p>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="service-card card-hover bg-slate-800/50 backdrop-blur border border-slate-700 rounded-xl p-8 fade-in-up stagger-4" data-animate>
+                        <div class="text-4xl mb-6 text-cyan-400">🤖</div>
+                        <h3 class="text-2xl font-bold mb-4 text-cyan-50">Virtual Agent Implementation</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            Implement intelligent Virtual Agents that provide 24/7 support and automate routine tasks for improved customer satisfaction.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-20 lg:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in-up" data-animate>
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-4 text-cyan-50">
+                        <span class="gradient-text">Portfolio</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-6"></div>
+                    <p class="text-xl text-slate-400">Recent Projects</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Portfolio Item 1 -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-xl bg-slate-800/50 border border-slate-700 cursor-pointer fade-in-up stagger-1" data-animate onclick="openModal('modal1')">
+                        <div class="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center text-4xl text-slate-400">
+                            🎯
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <h3 class="text-xl font-bold text-cyan-50 mb-2">Enterprise Service Portal</h3>
+                                <div class="flex flex-wrap gap-2 justify-center">
+                                    <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">ServiceNow</span>
+                                    <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">Angular</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 2 -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-xl bg-slate-800/50 border border-slate-700 cursor-pointer fade-in-up stagger-2" data-animate onclick="openModal('modal2')">
+                        <div class="aspect-video bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center text-4xl text-slate-400">
+                            📱
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <h3 class="text-xl font-bold text-cyan-50 mb-2">Mobile Employee Center</h3>
+                                <div class="flex flex-wrap gap-2 justify-center">
+                                    <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">React</span>
+                                    <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">PWA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 3 -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-xl bg-slate-800/50 border border-slate-700 cursor-pointer fade-in-up stagger-3" data-animate onclick="openModal('modal3')">
+                        <div class="aspect-video bg-gradient-to-br from-blue-400/20 to-cyan-400/20 flex items-center justify-center text-4xl text-slate-400">
+                            ⚡
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <h3 class="text-xl font-bold text-cyan-50 mb-2">Workflow Automation</h3>
+                                <div class="flex flex-wrap gap-2 justify-center">
+                                    <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">Flow Designer</span>
+                                    <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">REST API</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 4 -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-xl bg-slate-800/50 border border-slate-700 cursor-pointer fade-in-up stagger-4" data-animate onclick="openModal('modal4')">
+                        <div class="aspect-video bg-gradient-to-br from-cyan-400/20 to-blue-400/20 flex items-center justify-center text-4xl text-slate-400">
+                            🎨
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <h3 class="text-xl font-bold text-cyan-50 mb-2">UX/UI Transformation</h3>
+                                <div class="flex flex-wrap gap-2 justify-center">
+                                    <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">Design System</span>
+                                    <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">CSS Framework</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 5 -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-xl bg-slate-800/50 border border-slate-700 cursor-pointer fade-in-up stagger-1" data-animate onclick="openModal('modal5')">
+                        <div class="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-600/20 flex items-center justify-center text-4xl text-slate-400">
+                            🔧
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <h3 class="text-xl font-bold text-cyan-50 mb-2">Platform Integration</h3>
+                                <div class="flex flex-wrap gap-2 justify-center">
+                                    <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">MID Server</span>
+                                    <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">Integration Hub</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Item 6 -->
+                    <div class="portfolio-item group relative overflow-hidden rounded-xl bg-slate-800/50 border border-slate-700 cursor-pointer fade-in-up stagger-2" data-animate onclick="openModal('modal6')">
+                        <div class="aspect-video bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center text-4xl text-slate-400">
+                            📊
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <h3 class="text-xl font-bold text-cyan-50 mb-2">Analytics Dashboard</h3>
+                                <div class="flex flex-wrap gap-2 justify-center">
+                                    <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">Performance Analytics</span>
+                                    <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">Chart.js</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section - AI Chatbot -->
+        <section id="contact" class="py-20 lg:py-32">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in-up" data-animate>
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-4 text-cyan-50">
+                        Let's <span class="gradient-text">Connect</span>
+                    </h2>
+                    <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mb-6"></div>
+                    <p class="text-xl text-slate-400">Ask me anything about my experience or schedule a meeting</p>
+                </div>
+
+                <div class="glass rounded-2xl overflow-hidden fade-in-up chatbot-container" data-animate>
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-cyan-50">DevStudio Assistant</h3>
+                            <div class="chat-status">
+                                <div class="status-indicator"></div>
+                                <span class="text-sm text-slate-400">Online</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chat-messages">
+                        <!-- Welcome Message -->
+                        <div class="message bot">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div>Hi! I'm your DevStudio assistant. I can help you learn about my ServiceNow and frontend development experience, discuss potential projects, or schedule a meeting.</div>
+                                <div class="quick-actions">
+                                    <button class="quick-action-btn" onclick="sendQuickMessage('Tell me about your ServiceNow experience')">ServiceNow Experience</button>
+                                    <button class="quick-action-btn" onclick="sendQuickMessage('What projects have you worked on?')">Recent Projects</button>
+                                    <button class="quick-action-btn" onclick="sendQuickMessage('Schedule a meeting')">Schedule Meeting</button>
+                                    <button class="quick-action-btn" onclick="sendQuickMessage('What are your rates?')">Pricing</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-container">
+                        <div class="flex gap-3">
+                            <input type="text" id="chat-input" class="chat-input" placeholder="Ask me anything about my experience or services..." autocomplete="off">
+                            <button id="send-button" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alternative Contact -->
+                <div class="mt-12 text-center">
+                    <p class="text-slate-400 mb-6">Prefer direct contact?</p>
+                    <div class="flex justify-center space-x-8">
+                        <a href="mailto:hello@devstudio.com" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300 flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>hello@devstudio.com</span>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300 flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-700 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-slate-400 mb-4 md:mb-0">
+                    © 2024 DevStudio. All rights reserved.
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300" aria-label="GitHub">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300" aria-label="LinkedIn">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portfolio Modals -->
+    <div id="modal1" class="modal">
+        <div class="modal-content bg-slate-800 border border-slate-700 max-w-4xl">
+            <div class="relative">
+                <button onclick="closeModal('modal1')" class="absolute top-4 right-4 text-slate-400 hover:text-cyan-400 text-2xl z-10">
+                    ✕
+                </button>
+                <div class="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center text-6xl text-slate-400">
+                    🎯
+                </div>
+                <div class="p-8">
+                    <h3 class="text-3xl font-bold text-cyan-50 mb-4">Enterprise Service Portal</h3>
+                    <p class="text-slate-400 mb-6">A comprehensive Service Portal solution designed for a large enterprise, featuring advanced workflows, custom widgets, and seamless integration with backend systems.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">ServiceNow</span>
+                        <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">Angular</span>
+                        <span class="bg-slate-500/20 text-slate-300 px-3 py-1 rounded-full text-sm">REST API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal">
+        <div class="modal-content bg-slate-800 border border-slate-700 max-w-4xl">
+            <div class="relative">
+                <button onclick="closeModal('modal2')" class="absolute top-4 right-4 text-slate-400 hover:text-cyan-400 text-2xl z-10">
+                    ✕
+                </button>
+                <div class="aspect-video bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center text-6xl text-slate-400">
+                    📱
+                </div>
+                <div class="p-8">
+                    <h3 class="text-3xl font-bold text-cyan-50 mb-4">Mobile Employee Center</h3>
+                    <p class="text-slate-400 mb-6">A responsive Employee Center optimized for mobile devices, providing employees with easy access to HR services, IT support, and company resources.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">React</span>
+                        <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">PWA</span>
+                        <span class="bg-slate-500/20 text-slate-300 px-3 py-1 rounded-full text-sm">Responsive Design</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal3" class="modal">
+        <div class="modal-content bg-slate-800 border border-slate-700 max-w-4xl">
+            <div class="relative">
+                <button onclick="closeModal('modal3')" class="absolute top-4 right-4 text-slate-400 hover:text-cyan-400 text-2xl z-10">
+                    ✕
+                </button>
+                <div class="aspect-video bg-gradient-to-br from-blue-400/20 to-cyan-400/20 flex items-center justify-center text-6xl text-slate-400">
+                    ⚡
+                </div>
+                <div class="p-8">
+                    <h3 class="text-3xl font-bold text-cyan-50 mb-4">Workflow Automation</h3>
+                    <p class="text-slate-400 mb-6">Advanced workflow automation solution using Flow Designer to streamline business processes and reduce manual tasks by 80%.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">Flow Designer</span>
+                        <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">REST API</span>
+                        <span class="bg-slate-500/20 text-slate-300 px-3 py-1 rounded-full text-sm">Automation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal4" class="modal">
+        <div class="modal-content bg-slate-800 border border-slate-700 max-w-4xl">
+            <div class="relative">
+                <button onclick="closeModal('modal4')" class="absolute top-4 right-4 text-slate-400 hover:text-cyan-400 text-2xl z-10">
+                    ✕
+                </button>
+                <div class="aspect-video bg-gradient-to-br from-cyan-400/20 to-blue-400/20 flex items-center justify-center text-6xl text-slate-400">
+                    🎨
+                </div>
+                <div class="p-8">
+                    <h3 class="text-3xl font-bold text-cyan-50 mb-4">UX/UI Transformation</h3>
+                    <p class="text-slate-400 mb-6">Complete UI/UX overhaul for a legacy ServiceNow instance, implementing modern design principles and improving user adoption by 300%.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">Design System</span>
+                        <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">CSS Framework</span>
+                        <span class="bg-slate-500/20 text-slate-300 px-3 py-1 rounded-full text-sm">User Research</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal5" class="modal">
+        <div class="modal-content bg-slate-800 border border-slate-700 max-w-4xl">
+            <div class="relative">
+                <button onclick="closeModal('modal5')" class="absolute top-4 right-4 text-slate-400 hover:text-cyan-400 text-2xl z-10">
+                    ✕
+                </button>
+                <div class="aspect-video bg-gradient-to-br from-blue-500/20 to-cyan-600/20 flex items-center justify-center text-6xl text-slate-400">
+                    🔧
+                </div>
+                <div class="p-8">
+                    <h3 class="text-3xl font-bold text-cyan-50 mb-4">Platform Integration</h3>
+                    <p class="text-slate-400 mb-6">Complex multi-system integration connecting ServiceNow with enterprise applications, enabling seamless data flow and automated provisioning.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">MID Server</span>
+                        <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">Integration Hub</span>
+                        <span class="bg-slate-500/20 text-slate-300 px-3 py-1 rounded-full text-sm">Enterprise APIs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal6" class="modal">
+        <div class="modal-content bg-slate-800 border border-slate-700 max-w-4xl">
+            <div class="relative">
+                <button onclick="closeModal('modal6')" class="absolute top-4 right-4 text-slate-400 hover:text-cyan-400 text-2xl z-10">
+                    ✕
+                </button>
+                <div class="aspect-video bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center text-6xl text-slate-400">
+                    📊
+                </div>
+                <div class="p-8">
+                    <h3 class="text-3xl font-bold text-cyan-50 mb-4">Analytics Dashboard</h3>
+                    <p class="text-slate-400 mb-6">Executive-level analytics dashboard providing real-time insights into IT operations, employee satisfaction, and service delivery metrics.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">Performance Analytics</span>
+                        <span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-sm">Chart.js</span>
+                        <span class="bg-slate-500/20 text-slate-300 px-3 py-1 rounded-full text-sm">Real-time Data</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with data-animate attribute
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('[data-animate]');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // Header shrink on scroll
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('header');
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                header.classList.add('header-shrink');
+            } else {
+                header.classList.remove('header-shrink');
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+
+        // Parallax effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax');
+            
+            parallaxElements.forEach(element => {
+                const rate = scrolled * -0.5;
+                element.style.transform = `translateY(${rate}px)`;
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenuButton.classList.toggle('open');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on links
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuButton.classList.remove('open');
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Smooth scroll with offset for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const headerHeight = 80;
+                    const elementPosition = targetElement.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: elementPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Portfolio modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Chatbot functionality
+        const chatMessages = document.getElementById('chat-messages');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+
+        // Predefined responses for common questions
+        const chatResponses = {
+            'servicenow experience': "I have extensive ServiceNow experience working with Fortune 100 organizations. I've delivered enterprise transformations focusing on Service Portal development, Employee Centers, custom applications, and Virtual Agent implementations. My expertise spans the entire ServiceNow platform including Flow Designer, Integration Hub, and Performance Analytics.",
+            
+            'recent projects': "Here are some of my recent projects:\n\n• **Enterprise Service Portal** - Modern, responsive portal with advanced workflows\n• **Mobile Employee Center** - PWA optimized for mobile devices\n• **Workflow Automation** - Flow Designer solution reducing manual tasks by 80%\n• **UX/UI Transformation** - Complete design system overhaul improving adoption by 300%\n• **Platform Integration** - Multi-system integration with enterprise applications\n• **Analytics Dashboard** - Executive-level real-time insights dashboard",
+            
+            'schedule meeting': "I'd be happy to schedule a meeting! Here are a few options:\n\n📅 **Discovery Call** (30 min) - Discuss your project needs\n📅 **Technical Deep Dive** (60 min) - Review architecture and requirements\n📅 **Strategy Session** (45 min) - Planning and roadmap discussion\n\nPlease email me at hello@devstudio.com with your preferred time, or we can set up a calendar link for easy scheduling. What type of meeting would work best for you?",
+            
+            'rates': "My rates are project-based and depend on scope and complexity:\n\n💼 **ServiceNow Development**: $150-200/hour\n💼 **Frontend Development**: $125-175/hour\n💼 **Strategy & Consulting**: $200-250/hour\n💼 **Project-based work**: Custom pricing based on deliverables\n\nI offer transparent pricing with no hidden fees. Most projects include discovery, development, testing, and deployment. Would you like to discuss your specific project needs?",
+            
+            'skills': "My core skills include:\n\n**ServiceNow Platform:**\n• Service Portal & Employee Center development\n• Flow Designer & Workflow automation\n• Custom applications & integrations\n• Virtual Agent implementation\n• Performance Analytics & reporting\n\n**Frontend Technologies:**\n• JavaScript, React, Angular\n• HTML5, CSS3, Tailwind CSS\n• RESTful APIs & GraphQL\n• Responsive design & PWAs\n\n**Enterprise Focus:**\n• UX/UI design principles\n• Agile development methodologies\n• Enterprise architecture\n• User adoption strategies",
+            
+            'contact': "You can reach me through several channels:\n\n📧 **Email**: hello@devstudio.com\n💼 **LinkedIn**: /in/devstudio\n🐙 **GitHub**: /devstudio\n\nI typically respond to emails within 4-6 hours during business days. For urgent matters, LinkedIn messaging is often the fastest way to reach me.",
+            
+            'about': "I'm a ServiceNow developer and frontend specialist with deep experience delivering enterprise transformations for Fortune 100 organizations. I bring a rare blend of UX leadership and practical delivery - I streamline complexity, accelerate outcomes, and build experiences employees actually adopt. Big-firm skillset, zero big-firm waste — just solutions that move the business forward.",
+            
+            'hello': "Hello! Great to meet you! I'm here to help you learn about my ServiceNow and frontend development services. Feel free to ask me about my experience, recent projects, or if you'd like to schedule a meeting to discuss your needs.",
+            
+            'help': "I can help you with:\n\n🔍 **Learning about my experience** - ServiceNow and frontend development background\n📁 **Reviewing my work** - Recent projects and case studies\n💰 **Discussing pricing** - Rates and project structures\n📅 **Scheduling meetings** - Discovery calls and consultations\n🛠️ **Technical questions** - Platform capabilities and solutions\n\nWhat would you like to know more about?"
+        };
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = isUser ? '👤' : '🤖';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            // Convert markdown-style formatting to HTML
+            const formattedContent = content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            
+            messageContent.innerHTML = formattedContent;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot typing-message';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="typing-indicator">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return typingDiv;
+        }
+
+        function removeTypingIndicator(typingElement) {
+            if (typingElement && typingElement.parentNode) {
+                typingElement.parentNode.removeChild(typingElement);
+            }
+        }
+
+        function getBotResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Check for keyword matches
+            for (const [key, response] of Object.entries(chatResponses)) {
+                if (lowerMessage.includes(key) || 
+                    (key === 'hello' && (lowerMessage.includes('hi') || lowerMessage.includes('hey'))) ||
+                    (key === 'rates' && (lowerMessage.includes('price') || lowerMessage.includes('cost'))) ||
+                    (key === 'skills' && (lowerMessage.includes('technology') || lowerMessage.includes('tech'))) ||
+                    (key === 'about' && (lowerMessage.includes('who are you') || lowerMessage.includes('tell me about')))) {
+                    return response;
+                }
+            }
+            
+            // Default response for unrecognized messages
+            return "That's a great question! While I'm currently a simple chatbot with preset responses, I'd love to discuss this in detail. Could you please:\n\n• Email me directly at hello@devstudio.com\n• Schedule a call to discuss your specific needs\n• Try asking about my ServiceNow experience, recent projects, or pricing\n\nWhat would be most helpful for you?";
+        }
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Show typing indicator
+            const typingIndicator = showTypingIndicator();
+            
+            // Simulate delay and send bot response
+            setTimeout(() => {
+                removeTypingIndicator(typingIndicator);
+                const response = getBotResponse(message);
+                addMessage(response);
+            }, 1000 + Math.random() * 1000); // 1-2 second delay
+        }
+
+        function sendQuickMessage(message) {
+            addMessage(message, true);
+            
+            // Show typing indicator
+            const typingIndicator = showTypingIndicator();
+            
+            // Send bot response
+            setTimeout(() => {
+                removeTypingIndicator(typingIndicator);
+                const response = getBotResponse(message);
+                addMessage(response);
+            }, 800);
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Make sendQuickMessage globally available
+        window.sendQuickMessage = sendQuickMessage;
+
+        // Initialize entrance animations
+        setTimeout(() => {
+            const heroElements = document.querySelectorAll('#home [data-animate]');
+            heroElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('animated');
+                }, index * 200);
+            });
+        }, 500);
+
+        // Performance optimization - GPU acceleration
+        const gpuElements = document.querySelectorAll('.gpu-accelerated');
+        gpuElements.forEach(el => {
+            el.style.willChange = 'transform';
+        });
+
+        // Cleanup will-change after animations
+        setTimeout(() => {
+            gpuElements.forEach(el => {
+                el.style.willChange = 'auto';
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
