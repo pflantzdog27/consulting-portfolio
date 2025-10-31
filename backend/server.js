@@ -1,9 +1,15 @@
+import dotenv from 'dotenv';
+
+// Load environment variables FIRST before any other imports that might use them
+const dotenvResult = dotenv.config();
+console.log('🔥 DEBUG: dotenv.config() result:', dotenvResult);
+console.log('🔥 DEBUG: ANTHROPIC_API_KEY after dotenv:', !!process.env.ANTHROPIC_API_KEY, 'length:', process.env.ANTHROPIC_API_KEY?.length || 0);
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import expressWs from 'express-ws';
-import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -11,12 +17,14 @@ import { dirname, join } from 'path';
 import { logger } from './utils/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { requestLogger } from './middleware/requestLogger.js';
-import chatRoutes from './routes/chat.js';
+import chatRoutes, { activeConnections, messageSchema, userIdSchema, initializeServices, getServices } from './routes/chat.js';
 import healthRoutes from './routes/health.js';
 import { DatabaseService } from './services/DatabaseService.js';
 
-// Load environment variables
-dotenv.config();
+// Initialize services after environment variables are loaded and imports are complete
+console.log('🔥 DEBUG: Initializing services...');
+initializeServices();
+console.log('🔥 DEBUG: Services initialized successfully');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -73,6 +81,125 @@ app.use('/health', healthRoutes);
 
 // API routes
 app.use('/api/chat', chatRoutes);
+
+// WebSocket endpoint for real-time chat
+app.ws('/api/chat/ws/:userId', async (ws, req) => {
+  const userId = req.params.userId;
+  
+  try {
+    // Validate userId
+    const { error } = userIdSchema.validate({ userId });
+    if (error) {
+      ws.close(1008, 'Invalid user ID');
+      return;
+    }
+
+    // Store connection
+    activeConnections.set(userId, {
+      ws: ws,
+      connectedAt: new Date(),
+      lastActivity: new Date()
+    });
+
+    logger.info('WebSocket connection established', { userId });
+
+    // Send welcome message
+    ws.send(JSON.stringify({
+      type: 'connection_established',
+      message: 'Connected to chatbot service',
+      userId: userId,
+      timestamp: new Date().toISOString()
+    }));
+
+    // TEMPORARY: Skip conversation history loading
+    // Get conversation history and send initial context
+    // try {
+    //   const { conversationService } = getServices();
+    //   const history = await conversationService.getSessionHistory(userId, 5);
+    //   if (history.length > 0) {
+    //     ws.send(JSON.stringify({
+    //       type: 'conversation_history',
+    //       messages: history,
+    //       timestamp: new Date().toISOString()
+    //     }));
+    //   }
+    // } catch (error) {
+    //   logger.error('Error loading conversation history:', error);
+    // }
+
+    ws.on('message', async (data) => {
+      try {
+        logger.info('🔥 RAW MESSAGE RECEIVED', { userId, rawData: data.toString(), dataType: typeof data });
+        
+        const message = JSON.parse(data);
+        logger.info('🔥 PARSED MESSAGE', { userId, message });
+        
+        // Validate message
+        const { error: msgError } = messageSchema.validate(message);
+        if (msgError) {
+          logger.error('🔥 VALIDATION ERROR', { userId, error: msgError.details, message });
+          ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Invalid message format',
+            timestamp: new Date().toISOString()
+          }));
+          return;
+        }
+        
+        logger.info('🔥 MESSAGE VALIDATION PASSED', { userId, message });
+
+        logger.info('Processing message', { userId, messageLength: message.message.length });
+
+        const { claudeService, conversationService } = getServices();
+        
+        // TEMPORARY: Start with empty history to test basic Claude API
+        const history = [];
+        
+        // Process with Claude AI
+        const response = await claudeService.processMessage(message.message, history, userId);
+
+        // TEMPORARY: Skip conversation storage to focus on Claude API issue
+        // await conversationService.storeMessage(userId, message.message, 'user');
+        // await conversationService.storeMessage(userId, response.content, 'assistant');
+
+        // Send response
+        ws.send(JSON.stringify({
+          type: 'message',
+          content: response.content,
+          tools: response.tools || [],
+          timestamp: new Date().toISOString()
+        }));
+
+        // Update connection activity
+        if (activeConnections.has(userId)) {
+          activeConnections.get(userId).lastActivity = new Date();
+        }
+
+      } catch (error) {
+        logger.error('Message processing error:', { userId, error: error.message });
+        ws.send(JSON.stringify({
+          type: 'error',
+          message: 'Failed to process message',
+          timestamp: new Date().toISOString()
+        }));
+      }
+    });
+
+    ws.on('close', (code, reason) => {
+      logger.info('WebSocket connection closed', { userId, code, reason: reason?.toString() });
+      activeConnections.delete(userId);
+    });
+
+    ws.on('error', (error) => {
+      logger.error('WebSocket error:', { userId, error: error.message });
+      activeConnections.delete(userId);
+    });
+
+  } catch (error) {
+    logger.error('WebSocket connection error:', error);
+    ws.close(1011, 'Internal server error');
+  }
+});
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

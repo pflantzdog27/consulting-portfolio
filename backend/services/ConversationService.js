@@ -4,9 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class ConversationService {
   constructor() {
-    this.redis = DatabaseService.getRedis();
     this.sessionTimeout = 3600; // 1 hour in seconds
     this.maxMessagesInMemory = 20;
+  }
+
+  getRedis() {
+    return DatabaseService.getRedis();
   }
 
   async createOrGetConversation(userId) {
@@ -71,28 +74,31 @@ export class ConversationService {
       );
 
       // Cache recent message in Redis for quick access
-      const cacheKey = `conversation:${convId}:recent`;
-      await this.redis.lpush(cacheKey, JSON.stringify({
-        id: message.id,
-        role: message.role,
-        content: message.content,
-        created_at: message.created_at,
-        metadata: message.metadata
-      }));
-      
-      // Keep only recent messages in cache
-      await this.redis.ltrim(cacheKey, 0, this.maxMessagesInMemory - 1);
-      await this.redis.expire(cacheKey, this.sessionTimeout);
+      const redis = this.getRedis();
+      if (redis) {
+        const cacheKey = `conversation:${convId}:recent`;
+        await redis.lpush(cacheKey, JSON.stringify({
+          id: message.id,
+          role: message.role,
+          content: message.content,
+          created_at: message.created_at,
+          metadata: message.metadata
+        }));
+        
+        // Keep only recent messages in cache
+        await redis.ltrim(cacheKey, 0, this.maxMessagesInMemory - 1);
+        await redis.expire(cacheKey, this.sessionTimeout);
 
-      // Also cache in session-based key for WebSocket access
-      const sessionKey = `session:${userId}:messages`;
-      await this.redis.lpush(sessionKey, JSON.stringify({
-        role: message.role,
-        content: message.content,
-        timestamp: message.created_at
-      }));
-      await this.redis.ltrim(sessionKey, 0, this.maxMessagesInMemory - 1);
-      await this.redis.expire(sessionKey, this.sessionTimeout);
+        // Also cache in session-based key for WebSocket access
+        const sessionKey = `session:${userId}:messages`;
+        await redis.lpush(sessionKey, JSON.stringify({
+          role: message.role,
+          content: message.content,
+          timestamp: message.created_at
+        }));
+        await redis.ltrim(sessionKey, 0, this.maxMessagesInMemory - 1);
+        await redis.expire(sessionKey, this.sessionTimeout);
+      }
 
       logger.info('Message stored successfully', {
         messageId: message.id,
@@ -112,16 +118,19 @@ export class ConversationService {
   async getConversationHistory(conversationId, limit = 10) {
     try {
       // First try to get from cache
-      const cacheKey = `conversation:${conversationId}:recent`;
-      const cachedMessages = await this.redis.lrange(cacheKey, 0, limit - 1);
-      
-      if (cachedMessages.length > 0) {
-        const messages = cachedMessages.map(msg => JSON.parse(msg)).reverse();
-        logger.info('Retrieved conversation history from cache', {
-          conversationId,
-          messageCount: messages.length
-        });
-        return messages;
+      const redis = this.getRedis();
+      if (redis) {
+        const cacheKey = `conversation:${conversationId}:recent`;
+        const cachedMessages = await redis.lrange(cacheKey, 0, limit - 1);
+        
+        if (cachedMessages.length > 0) {
+          const messages = cachedMessages.map(msg => JSON.parse(msg)).reverse();
+          logger.info('Retrieved conversation history from cache', {
+            conversationId,
+            messageCount: messages.length
+          });
+          return messages;
+        }
       }
 
       // Fallback to database
@@ -151,13 +160,18 @@ export class ConversationService {
 
   async getSessionHistory(userId, limit = 10) {
     try {
-      // Get from Redis session cache
-      const sessionKey = `session:${userId}:messages`;
-      const cachedMessages = await this.redis.lrange(sessionKey, 0, limit - 1);
+      // Get fresh Redis connection
+      const redis = this.getRedis();
       
-      if (cachedMessages.length > 0) {
-        const messages = cachedMessages.map(msg => JSON.parse(msg)).reverse();
-        return messages;
+      if (redis) {
+        // Get from Redis session cache
+        const sessionKey = `session:${userId}:messages`;
+        const cachedMessages = await redis.lrange(sessionKey, 0, limit - 1);
+        
+        if (cachedMessages.length > 0) {
+          const messages = cachedMessages.map(msg => JSON.parse(msg)).reverse();
+          return messages;
+        }
       }
 
       // Fallback: get from most recent conversation
@@ -207,7 +221,10 @@ export class ConversationService {
   async getActiveSessionUsers() {
     try {
       // Get users with recent activity from Redis
-      const keys = await this.redis.keys('session:*:messages');
+      const redis = this.getRedis();
+      if (!redis) return [];
+      
+      const keys = await redis.keys('session:*:messages');
       const activeUsers = keys.map(key => {
         const match = key.match(/session:(.+):messages/);
         return match ? match[1] : null;

@@ -2,6 +2,12 @@ import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
 import { logger } from '../utils/logger.js';
 import { DatabaseService } from './DatabaseService.js';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export class KnowledgeBaseService {
   constructor() {
@@ -17,7 +23,7 @@ export class KnowledgeBaseService {
     });
     
     this.embeddingModel = 'text-embedding-3-small';
-    this.embeddingDimensions = 1536;
+    this.embeddingDimensions = 1024;
   }
 
   async initialize() {
@@ -41,7 +47,7 @@ export class KnowledgeBaseService {
       const embedding = await this.generateEmbedding(query);
 
       // Build filter for category if specified
-      const filter = category ? { category: { $eq: category } } : {};
+      const filter = category ? { category: { $eq: category } } : undefined;
 
       logger.info('Searching knowledge base', { 
         query: query.substring(0, 100), 
@@ -50,12 +56,17 @@ export class KnowledgeBaseService {
       });
 
       // Search in Pinecone
-      const searchResults = await this.index.query({
+      const queryOptions = {
         vector: embedding,
         topK,
-        filter,
         includeMetadata: true
-      });
+      };
+      
+      if (filter) {
+        queryOptions.filter = filter;
+      }
+      
+      const searchResults = await this.index.query(queryOptions);
 
       // Format and return results
       const formattedResults = searchResults.matches.map(match => ({
@@ -189,113 +200,131 @@ export class KnowledgeBaseService {
     }
   }
 
-  async populateKnowledgeBase() {
-    const businessContent = [
-      {
-        id: 'experience_fortune100',
-        title: 'Fortune 100 Enterprise Experience',
-        content: 'Deep experience delivering enterprise ServiceNow transformations for Fortune 100 organizations. I bring a rare blend of UX leadership and practical delivery. I streamline complexity, accelerate outcomes, and build experiences employees actually adopt. Big-firm skillset, zero big-firm waste — just solutions that move the business forward.',
-        category: 'experience',
-        keywords: ['fortune 100', 'enterprise', 'transformations', 'ux leadership', 'delivery'],
-        source: 'business_profile'
-      },
-      {
-        id: 'service_portal_development',
-        title: 'Service Portal Development',
-        content: 'Service Portal Development: Create stunning, responsive Service Portals that enhance user experience and streamline business processes with modern design principles. Includes custom widgets, advanced workflows, and seamless integration with backend systems. Expertise in AngularJS, Bootstrap, CSS, and ServiceNow APIs.',
-        category: 'services',
-        keywords: ['service portal', 'development', 'responsive', 'widgets', 'angularjs'],
-        source: 'services'
-      },
-      {
-        id: 'employee_center_solutions',
-        title: 'Employee Center Solutions',
-        content: 'Employee Center Solutions: Build intuitive Employee Centers that empower users with self-service capabilities and seamless access to enterprise resources. Focus on user adoption, mobile responsiveness, and integration with HR, IT, and business systems.',
-        category: 'services',
-        keywords: ['employee center', 'self-service', 'mobile', 'hr integration'],
-        source: 'services'
-      },
-      {
-        id: 'custom_application_development',
-        title: 'Custom Application Development',
-        content: 'Custom Application Development: Develop tailored ServiceNow applications that align with your unique business requirements and drive operational efficiency. Includes scoped applications, custom tables, business rules, workflows, and integrations.',
-        category: 'services',
-        keywords: ['custom applications', 'scoped apps', 'business rules', 'workflows'],
-        source: 'services'
-      },
-      {
-        id: 'virtual_agent_implementation',
-        title: 'Virtual Agent Implementation',
-        content: 'Virtual Agent Implementation: Implement intelligent Virtual Agents that provide 24/7 support and automate routine tasks for improved customer satisfaction. Includes conversational design, NLU training, and integration with knowledge bases.',
-        category: 'services',
-        keywords: ['virtual agent', 'chatbot', 'automation', '24/7 support', 'nlu'],
-        source: 'services'
-      },
-      {
-        id: 'enterprise_service_portal_case_study',
-        title: 'Enterprise Service Portal Case Study',
-        content: 'Enterprise Service Portal for Fortune 500 company - Modern, responsive portal with advanced workflows and custom widgets. Reduced ticket volume by 40% and improved user satisfaction scores by 60%. Technologies used: ServiceNow, AngularJS, Bootstrap, REST APIs.',
-        category: 'projects',
-        keywords: ['case study', 'portal', 'fortune 500', 'ticket reduction', 'user satisfaction'],
-        source: 'portfolio'
-      },
-      {
-        id: 'mobile_employee_center_case_study',
-        title: 'Mobile Employee Center Case Study',
-        content: 'Mobile Employee Center PWA optimized for mobile devices. Provided employees with easy access to HR services, IT support, and company resources. 95% mobile adoption rate with 4.8/5 user rating. Technologies: React, PWA, Responsive Design.',
-        category: 'projects',
-        keywords: ['mobile', 'pwa', 'employee center', 'hr services', 'adoption'],
-        source: 'portfolio'
-      },
-      {
-        id: 'workflow_automation_case_study',
-        title: 'Workflow Automation Case Study',
-        content: 'Advanced workflow automation solution using Flow Designer to streamline business processes and reduce manual tasks by 80%. Implemented complex approval workflows, automated notifications, and integration with external systems.',
-        category: 'projects',
-        keywords: ['workflow automation', 'flow designer', 'manual tasks', 'approvals'],
-        source: 'portfolio'
-      },
-      {
-        id: 'servicenow_technologies',
-        title: 'ServiceNow Platform Technologies',
-        content: 'ServiceNow Platform expertise includes: Service Portal development with AngularJS and Jelly, Employee Center and Mobile apps, Flow Designer for workflow automation, Integration Hub for external connections, Performance Analytics for reporting, Virtual Agent for chatbots, Custom Applications with scoped development.',
-        category: 'technologies',
-        keywords: ['servicenow', 'service portal', 'flow designer', 'integration hub', 'performance analytics'],
-        source: 'technical_skills'
-      },
-      {
-        id: 'frontend_technologies',
-        title: 'Frontend Development Technologies',
-        content: 'Frontend technologies expertise: JavaScript (ES6+), React, Angular, Vue.js, HTML5, CSS3, Tailwind CSS, Bootstrap, RESTful APIs, GraphQL, Responsive Design, PWAs, Webpack, npm/yarn, Git version control.',
-        category: 'technologies',
-        keywords: ['javascript', 'react', 'angular', 'html5', 'css3', 'tailwind', 'responsive'],
-        source: 'technical_skills'
-      },
-      {
-        id: 'pricing_servicenow_development',
-        title: 'ServiceNow Development Pricing',
-        content: 'ServiceNow Development: $150-200/hour. Includes Service Portal development, Employee Center solutions, custom applications, workflow automation, and integrations. Project-based pricing available for larger engagements starting at $15,000.',
-        category: 'pricing',
-        keywords: ['pricing', 'servicenow development', 'hourly rate', 'project based'],
-        source: 'pricing'
-      },
-      {
-        id: 'pricing_frontend_development',
-        title: 'Frontend Development Pricing',
-        content: 'Frontend Development: $125-175/hour. Modern frontend development using React, Angular, Vue.js and cutting-edge technologies. Includes responsive design, PWA development, API integration, and performance optimization.',
-        category: 'pricing',
-        keywords: ['pricing', 'frontend development', 'react', 'angular', 'vue'],
-        source: 'pricing'
-      },
-      {
-        id: 'pricing_consulting',
-        title: 'Strategy & Consulting Pricing',
-        content: 'Strategy & Consulting: $200-250/hour. Strategic consulting for ServiceNow implementations, UX/UI strategy, digital transformation, and technical architecture. Retainer and project-based options available.',
-        category: 'pricing',
-        keywords: ['pricing', 'consulting', 'strategy', 'ux ui', 'digital transformation'],
-        source: 'pricing'
+  async loadMarkdownFiles() {
+    try {
+      // Path to markdown files (root of project)
+      const rootDir = path.resolve(__dirname, '../../');
+      const markdownDir = rootDir;
+
+      // File mapping to categories
+      const fileCategories = {
+        'about-me.md': 'experience',
+        'company-history.md': 'experience',
+        'mission-values.md': 'experience',
+        'service-offerings.md': 'services',
+        'technical-expertise.md': 'technologies',
+        'case-studies.md': 'projects',
+        'faqs.md': 'general',
+        'contact-policies.md': 'general'
+      };
+
+      const contentItems = [];
+
+      for (const [filename, category] of Object.entries(fileCategories)) {
+        try {
+          const filePath = path.join(markdownDir, filename);
+          const content = await fs.readFile(filePath, 'utf-8');
+
+          // Parse markdown content into sections
+          const sections = this.parseMarkdownSections(content, filename);
+
+          sections.forEach((section, index) => {
+            contentItems.push({
+              id: `${filename.replace('.md', '')}_section_${index}`,
+              title: section.title,
+              content: section.content,
+              category: category,
+              keywords: this.extractKeywords(section.content),
+              source: filename
+            });
+          });
+
+          logger.info(`Loaded markdown file: ${filename}`, { sections: sections.length });
+
+        } catch (error) {
+          logger.warn(`Could not load ${filename}:`, error.message);
+        }
       }
-    ];
+
+      return contentItems;
+
+    } catch (error) {
+      logger.error('Failed to load markdown files:', error);
+      return [];
+    }
+  }
+
+  parseMarkdownSections(content, filename) {
+    const sections = [];
+    const lines = content.split('\n');
+    let currentSection = null;
+    let currentContent = [];
+
+    for (const line of lines) {
+      // Check for headers (# or ##)
+      if (line.match(/^#{1,2}\s+(.+)/)) {
+        // Save previous section if exists
+        if (currentSection) {
+          sections.push({
+            title: currentSection,
+            content: currentContent.join('\n').trim()
+          });
+        }
+
+        // Start new section
+        currentSection = line.replace(/^#{1,2}\s+/, '').trim();
+        currentContent = [];
+      } else if (currentSection) {
+        currentContent.push(line);
+      }
+    }
+
+    // Save last section
+    if (currentSection && currentContent.length > 0) {
+      sections.push({
+        title: currentSection,
+        content: currentContent.join('\n').trim()
+      });
+    }
+
+    // If no sections found, use entire content
+    if (sections.length === 0) {
+      sections.push({
+        title: filename.replace('.md', '').replace(/-/g, ' '),
+        content: content
+      });
+    }
+
+    return sections;
+  }
+
+  extractKeywords(text) {
+    // Simple keyword extraction - remove common words and extract important terms
+    const commonWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been', 'be', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those']);
+
+    const words = text.toLowerCase()
+      .replace(/[^\w\s]/g, ' ')
+      .split(/\s+/)
+      .filter(word => word.length > 3 && !commonWords.has(word));
+
+    // Get unique words and take top 10 most common
+    const wordFreq = {};
+    words.forEach(word => {
+      wordFreq[word] = (wordFreq[word] || 0) + 1;
+    });
+
+    return Object.entries(wordFreq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([word]) => word);
+  }
+
+  async populateKnowledgeBase() {
+    // Load content from markdown files
+    const markdownContent = await this.loadMarkdownFiles();
+
+    // Use content loaded from markdown files
+    const businessContent = markdownContent;
 
     logger.info('Starting knowledge base population', { totalItems: businessContent.length });
 

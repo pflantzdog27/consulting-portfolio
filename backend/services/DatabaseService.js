@@ -160,8 +160,11 @@ export class DatabaseService {
       END;
       $$ language 'plpgsql';
 
-      CREATE TRIGGER IF NOT EXISTS update_leads_updated_at BEFORE UPDATE ON leads FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-      CREATE TRIGGER IF NOT EXISTS update_meetings_updated_at BEFORE UPDATE ON meetings FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+      DROP TRIGGER IF EXISTS update_leads_updated_at ON leads;
+      CREATE TRIGGER update_leads_updated_at BEFORE UPDATE ON leads FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+      
+      DROP TRIGGER IF EXISTS update_meetings_updated_at ON meetings;
+      CREATE TRIGGER update_meetings_updated_at BEFORE UPDATE ON meetings FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
     `;
 
     try {

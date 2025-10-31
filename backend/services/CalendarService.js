@@ -139,7 +139,7 @@ export class CalendarService {
 
       const event = {
         summary: `${meetingTitles[meeting_type]} - ${name}${company ? ` (${company})` : ''}`,
-        description: `${meetingDescriptions[meeting_type]}\n\nClient: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nRequirements:\n${requirements}\n\n---\nScheduled via DevStudio AI Assistant`,
+        description: `${meetingDescriptions[meeting_type]}\n\nClient: ${name}${company ? `\nCompany: ${company}` : ''}\nEmail: ${email}\n\nRequirements:\n${requirements}\n\n---\nScheduled via Pflantzer Consulting AI Assistant`,
         start: {
           dateTime: startTime.toISOString(),
           timeZone: timezone

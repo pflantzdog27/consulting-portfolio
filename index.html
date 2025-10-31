@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevStudio - ServiceNow & Frontend Development</title>
+    <title>Pflantzer Consulting - ServiceNow & Frontend Development</title>
     <meta name="description" content="Professional ServiceNow and Frontend Development services. Expert in Service Portal, Employee Center, and custom applications.">
     
     <!-- Tailwind CSS CDN -->
@@ -593,7 +593,9 @@
             <div class="flex items-center justify-between h-full">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <a href="#home" class="text-2xl font-bold gradient-text">DevStudio</a>
+                    <a href="#home" class="flex items-center">
+                        <img src="logo.png" alt="Pflantzer Consulting Logo" style="width: 300px; height: auto;">
+                    </a>
                 </div>
 
                 <!-- Desktop Navigation -->
@@ -687,7 +689,7 @@
                         <div class="relative w-80 h-80 mx-auto">
                             <div class="parallax absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 blur-xl"></div>
                             <div class="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30">
-                                <img src="headshot.jpg" alt="Professional headshot" class="w-full h-full object-cover" loading="lazy">
+                                <img src="headshot.jpg" alt="Professional headshot" class="w-full h-full object-cover" style="object-position: center 30%;" loading="lazy">
                             </div>
                         </div>
                     </div>
@@ -904,7 +906,7 @@
                             </svg>
                         </div>
                         <div class="flex-1">
-                            <h3 class="font-semibold text-cyan-50">DevStudio Assistant</h3>
+                            <h3 class="font-semibold text-cyan-50">Pflantzer Consulting Assistant</h3>
                             <div class="chat-status">
                                 <div class="status-indicator"></div>
                                 <span class="text-sm text-slate-400">Online</span>
@@ -918,7 +920,7 @@
                         <div class="message bot">
                             <div class="message-avatar">🤖</div>
                             <div class="message-content">
-                                <div>Hi! I'm your DevStudio assistant. I can help you learn about my ServiceNow and frontend development experience, discuss potential projects, or schedule a meeting.</div>
+                                <div>Hi! I'm your Pflantzer Consulting assistant. I can help you learn about my ServiceNow and frontend development experience, discuss potential projects, or schedule a meeting.</div>
                                 <div class="quick-actions">
                                     <button class="quick-action-btn" onclick="sendQuickMessage('Tell me about your ServiceNow experience')">ServiceNow Experience</button>
                                     <button class="quick-action-btn" onclick="sendQuickMessage('What projects have you worked on?')">Recent Projects</button>
@@ -968,8 +970,9 @@
     <footer class="border-t border-slate-700 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="text-slate-400 mb-4 md:mb-0">
-                    © 2024 DevStudio. All rights reserved.
+                <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                    <img src="logo.png" alt="Pflantzer Consulting Logo" style="width: 150px; height: auto;">
+                    <span class="text-slate-400">© 2024 Pflantzer Consulting. All rights reserved.</span>
                 </div>
                 <div class="flex space-x-6">
                     <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-cyan-400 transition-colors duration-300" aria-label="GitHub">
@@ -1227,145 +1230,330 @@
             });
         });
 
-        // Chatbot functionality
-        const chatMessages = document.getElementById('chat-messages');
-        const chatInput = document.getElementById('chat-input');
-        const sendButton = document.getElementById('send-button');
-
-        // Predefined responses for common questions
-        const chatResponses = {
-            'servicenow experience': "I have extensive ServiceNow experience working with Fortune 100 organizations. I've delivered enterprise transformations focusing on Service Portal development, Employee Centers, custom applications, and Virtual Agent implementations. My expertise spans the entire ServiceNow platform including Flow Designer, Integration Hub, and Performance Analytics.",
-            
-            'recent projects': "Here are some of my recent projects:\n\n• **Enterprise Service Portal** - Modern, responsive portal with advanced workflows\n• **Mobile Employee Center** - PWA optimized for mobile devices\n• **Workflow Automation** - Flow Designer solution reducing manual tasks by 80%\n• **UX/UI Transformation** - Complete design system overhaul improving adoption by 300%\n• **Platform Integration** - Multi-system integration with enterprise applications\n• **Analytics Dashboard** - Executive-level real-time insights dashboard",
-            
-            'schedule meeting': "I'd be happy to schedule a meeting! Here are a few options:\n\n📅 **Discovery Call** (30 min) - Discuss your project needs\n📅 **Technical Deep Dive** (60 min) - Review architecture and requirements\n📅 **Strategy Session** (45 min) - Planning and roadmap discussion\n\nPlease email me at hello@devstudio.com with your preferred time, or we can set up a calendar link for easy scheduling. What type of meeting would work best for you?",
-            
-            'rates': "My rates are project-based and depend on scope and complexity:\n\n💼 **ServiceNow Development**: $150-200/hour\n💼 **Frontend Development**: $125-175/hour\n💼 **Strategy & Consulting**: $200-250/hour\n💼 **Project-based work**: Custom pricing based on deliverables\n\nI offer transparent pricing with no hidden fees. Most projects include discovery, development, testing, and deployment. Would you like to discuss your specific project needs?",
-            
-            'skills': "My core skills include:\n\n**ServiceNow Platform:**\n• Service Portal & Employee Center development\n• Flow Designer & Workflow automation\n• Custom applications & integrations\n• Virtual Agent implementation\n• Performance Analytics & reporting\n\n**Frontend Technologies:**\n• JavaScript, React, Angular\n• HTML5, CSS3, Tailwind CSS\n• RESTful APIs & GraphQL\n• Responsive design & PWAs\n\n**Enterprise Focus:**\n• UX/UI design principles\n• Agile development methodologies\n• Enterprise architecture\n• User adoption strategies",
-            
-            'contact': "You can reach me through several channels:\n\n📧 **Email**: hello@devstudio.com\n💼 **LinkedIn**: /in/devstudio\n🐙 **GitHub**: /devstudio\n\nI typically respond to emails within 4-6 hours during business days. For urgent matters, LinkedIn messaging is often the fastest way to reach me.",
-            
-            'about': "I'm a ServiceNow developer and frontend specialist with deep experience delivering enterprise transformations for Fortune 100 organizations. I bring a rare blend of UX leadership and practical delivery - I streamline complexity, accelerate outcomes, and build experiences employees actually adopt. Big-firm skillset, zero big-firm waste — just solutions that move the business forward.",
-            
-            'hello': "Hello! Great to meet you! I'm here to help you learn about my ServiceNow and frontend development services. Feel free to ask me about my experience, recent projects, or if you'd like to schedule a meeting to discuss your needs.",
-            
-            'help': "I can help you with:\n\n🔍 **Learning about my experience** - ServiceNow and frontend development background\n📁 **Reviewing my work** - Recent projects and case studies\n💰 **Discussing pricing** - Rates and project structures\n📅 **Scheduling meetings** - Discovery calls and consultations\n🛠️ **Technical questions** - Platform capabilities and solutions\n\nWhat would you like to know more about?"
-        };
-
-        function addMessage(content, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-            
-            const avatar = document.createElement('div');
-            avatar.className = 'message-avatar';
-            avatar.textContent = isUser ? '👤' : '🤖';
-            
-            const messageContent = document.createElement('div');
-            messageContent.className = 'message-content';
-            
-            // Convert markdown-style formatting to HTML
-            const formattedContent = content
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\n/g, '<br>');
-            
-            messageContent.innerHTML = formattedContent;
-            
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(messageContent);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message bot typing-message';
-            typingDiv.innerHTML = `
-                <div class="message-avatar">🤖</div>
-                <div class="typing-indicator">
-                    <div class="typing-dots">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                </div>
-            `;
-            
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            return typingDiv;
-        }
-
-        function removeTypingIndicator(typingElement) {
-            if (typingElement && typingElement.parentNode) {
-                typingElement.parentNode.removeChild(typingElement);
+        // Advanced Chatbot with Backend Integration
+        class ChatbotClient {
+            constructor() {
+                this.apiUrl = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:3000' 
+                    : 'https://your-backend-url.railway.app'; // Update with your deployed URL
+                
+                this.userId = this.generateUserId();
+                this.socket = null;
+                this.conversationId = null;
+                this.isConnected = false;
+                this.messageQueue = [];
+                
+                this.chatMessages = document.getElementById('chat-messages');
+                this.chatInput = document.getElementById('chat-input');
+                this.sendButton = document.getElementById('send-button');
+                
+                this.init();
             }
-        }
 
-        function getBotResponse(userMessage) {
-            const lowerMessage = userMessage.toLowerCase();
-            
-            // Check for keyword matches
-            for (const [key, response] of Object.entries(chatResponses)) {
-                if (lowerMessage.includes(key) || 
-                    (key === 'hello' && (lowerMessage.includes('hi') || lowerMessage.includes('hey'))) ||
-                    (key === 'rates' && (lowerMessage.includes('price') || lowerMessage.includes('cost'))) ||
-                    (key === 'skills' && (lowerMessage.includes('technology') || lowerMessage.includes('tech'))) ||
-                    (key === 'about' && (lowerMessage.includes('who are you') || lowerMessage.includes('tell me about')))) {
-                    return response;
+            generateUserId() {
+                // Try to get existing user ID from localStorage
+                let userId = localStorage.getItem('chatbot_user_id');
+                if (!userId) {
+                    userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('chatbot_user_id', userId);
+                }
+                return userId;
+            }
+
+            async init() {
+                // Try WebSocket first, fallback to REST
+                try {
+                    await this.initializeWebSocket();
+                } catch (error) {
+                    console.warn('WebSocket failed, using REST API fallback:', error);
+                    this.isConnected = true; // Mark as connected for REST mode
+                }
+
+                this.setupEventListeners();
+            }
+
+            async initializeWebSocket() {
+                return new Promise((resolve, reject) => {
+                    try {
+                        const wsUrl = this.apiUrl.replace('http', 'ws') + `/api/chat/ws/${this.userId}`;
+                        this.socket = new WebSocket(wsUrl);
+
+                        this.socket.onopen = () => {
+                            console.log('🔗 Connected to chatbot backend');
+                            this.isConnected = true;
+                            
+                            // Process any queued messages
+                            while (this.messageQueue.length > 0) {
+                                const queuedMessage = this.messageQueue.shift();
+                                this.sendMessage(queuedMessage);
+                            }
+                            
+                            resolve();
+                        };
+
+                        this.socket.onmessage = (event) => {
+                            this.handleWebSocketMessage(JSON.parse(event.data));
+                        };
+
+                        this.socket.onclose = (event) => {
+                            console.log('🔌 WebSocket connection closed:', event.code, event.reason);
+                            this.isConnected = false;
+                            
+                            // Attempt to reconnect after 5 seconds
+                            setTimeout(() => {
+                                console.log('🔄 Attempting to reconnect...');
+                                this.initializeWebSocket().catch(console.error);
+                            }, 5000);
+                        };
+
+                        this.socket.onerror = (error) => {
+                            console.error('❌ WebSocket error:', error);
+                            reject(error);
+                        };
+
+                        // Timeout for connection
+                        setTimeout(() => {
+                            if (!this.isConnected) {
+                                reject(new Error('WebSocket connection timeout'));
+                            }
+                        }, 10000);
+
+                    } catch (error) {
+                        reject(error);
+                    }
+                });
+            }
+
+            handleWebSocketMessage(data) {
+                switch (data.type) {
+                    case 'connection_established':
+                        console.log('✅ Chat connection established');
+                        break;
+                        
+                    case 'conversation_history':
+                        this.loadConversationHistory(data.messages);
+                        break;
+                        
+                    case 'typing_start':
+                        this.showTypingIndicator();
+                        break;
+                        
+                    case 'typing_end':
+                        this.removeTypingIndicator();
+                        break;
+                        
+                    case 'message':
+                        this.removeTypingIndicator();
+                        this.addMessage(data.content, false);
+                        break;
+                        
+                    case 'tool_notification':
+                        setTimeout(() => {
+                            this.addMessage(data.message, false);
+                        }, 500);
+                        break;
+                        
+                    case 'error':
+                        this.removeTypingIndicator();
+                        this.addMessage(data.message || 'Sorry, I encountered an error. Please try again.', false);
+                        break;
+                        
+                    default:
+                        console.log('📩 Unknown message type:', data.type);
                 }
             }
-            
-            // Default response for unrecognized messages
-            return "That's a great question! While I'm currently a simple chatbot with preset responses, I'd love to discuss this in detail. Could you please:\n\n• Email me directly at hello@devstudio.com\n• Schedule a call to discuss your specific needs\n• Try asking about my ServiceNow experience, recent projects, or pricing\n\nWhat would be most helpful for you?";
-        }
 
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-            
-            // Add user message
-            addMessage(message, true);
-            chatInput.value = '';
-            
-            // Show typing indicator
-            const typingIndicator = showTypingIndicator();
-            
-            // Simulate delay and send bot response
-            setTimeout(() => {
-                removeTypingIndicator(typingIndicator);
-                const response = getBotResponse(message);
-                addMessage(response);
-            }, 1000 + Math.random() * 1000); // 1-2 second delay
-        }
+            setupEventListeners() {
+                this.sendButton.addEventListener('click', () => {
+                    this.sendMessage();
+                });
+                
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
 
-        function sendQuickMessage(message) {
-            addMessage(message, true);
-            
-            // Show typing indicator
-            const typingIndicator = showTypingIndicator();
-            
-            // Send bot response
-            setTimeout(() => {
-                removeTypingIndicator(typingIndicator);
-                const response = getBotResponse(message);
-                addMessage(response);
-            }, 800);
-        }
-
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
+                // Make sendQuickMessage globally available
+                window.sendQuickMessage = (message) => {
+                    this.sendQuickMessage(message);
+                };
             }
-        });
 
-        // Make sendQuickMessage globally available
-        window.sendQuickMessage = sendQuickMessage;
+            sendMessage(messageText = null) {
+                const message = messageText || this.chatInput.value.trim();
+                if (!message) return;
+
+                // Add user message to UI
+                this.addMessage(message, true);
+                
+                // Clear input if it was typed (not from quick message)
+                if (!messageText) {
+                    this.chatInput.value = '';
+                }
+
+                if (!this.isConnected) {
+                    // Queue message if not connected
+                    this.messageQueue.push(message);
+                    this.addMessage('⏳ Connecting to chat service...', false);
+                    return;
+                }
+
+                if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+                    // Send via WebSocket
+                    this.socket.send(JSON.stringify({
+                        message: message,
+                        timestamp: new Date().toISOString()
+                    }));
+                } else {
+                    // Fallback to REST API
+                    this.sendMessageREST(message);
+                }
+            }
+
+            async sendMessageREST(message) {
+                try {
+                    this.showTypingIndicator();
+
+                    const response = await fetch(`${this.apiUrl}/api/chat/message`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            userId: this.userId,
+                            conversationId: this.conversationId
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    this.removeTypingIndicator();
+                    this.addMessage(data.response, false);
+
+                    // Handle tool notifications
+                    if (data.tools_used && data.tools_used.length > 0) {
+                        this.handleToolNotifications(data.tools_used);
+                    }
+
+                } catch (error) {
+                    console.error('❌ REST API error:', error);
+                    this.removeTypingIndicator();
+                    this.addMessage('Sorry, I\'m having trouble connecting. Please try again or email me directly at hello@devstudio.com', false);
+                }
+            }
+
+            sendQuickMessage(message) {
+                this.sendMessage(message);
+            }
+
+            handleToolNotifications(toolsUsed) {
+                toolsUsed.forEach(tool => {
+                    if (tool.name === 'schedule_meeting') {
+                        setTimeout(() => {
+                            this.addMessage('✅ Great! I\'ve scheduled your meeting. You should receive a calendar invitation shortly with the meeting details and video call link.', false);
+                        }, 1000);
+                    }
+                    
+                    if (tool.name === 'capture_lead') {
+                        setTimeout(() => {
+                            this.addMessage('📝 Thank you! I\'ve captured your information and will follow up within 4-6 hours during business days.', false);
+                        }, 1000);
+                    }
+                });
+            }
+
+            loadConversationHistory(messages) {
+                // Only load if chat is empty (to avoid duplicates)
+                if (this.chatMessages.children.length <= 1) { // Only welcome message
+                    messages.forEach(msg => {
+                        if (msg.role === 'user' || msg.role === 'assistant') {
+                            this.addMessage(msg.content, msg.role === 'user');
+                        }
+                    });
+                }
+            }
+
+            addMessage(content, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.textContent = isUser ? '👤' : '🤖';
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                
+                // Convert markdown-style formatting to HTML
+                const formattedContent = content
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+                
+                messageContent.innerHTML = formattedContent;
+                
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(messageContent);
+                
+                this.chatMessages.appendChild(messageDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            showTypingIndicator() {
+                // Remove existing typing indicator
+                this.removeTypingIndicator();
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message bot typing-message';
+                typingDiv.innerHTML = `
+                    <div class="message-avatar">🤖</div>
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                
+                this.chatMessages.appendChild(typingDiv);
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+
+            removeTypingIndicator() {
+                const typingIndicator = this.chatMessages.querySelector('.typing-message');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            // Public method to check connection status
+            getConnectionStatus() {
+                return {
+                    isConnected: this.isConnected,
+                    connectionType: this.socket && this.socket.readyState === WebSocket.OPEN ? 'WebSocket' : 'REST',
+                    userId: this.userId
+                };
+            }
+        }
+
+        // Initialize the chatbot when the page loads
+        let chatbotClient;
+        document.addEventListener('DOMContentLoaded', () => {
+            chatbotClient = new ChatbotClient();
+            
+            // Add connection status indicator (optional)
+            setTimeout(() => {
+                const status = chatbotClient.getConnectionStatus();
+                console.log('💬 Chatbot Status:', status);
+            }, 2000);
+        });
 
         // Initialize entrance animations
         setTimeout(() => {
